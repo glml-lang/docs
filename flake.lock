@@ -81,11 +81,11 @@
         "opam-nix": "opam-nix"
       },
       "locked": {
-        "lastModified": 1780972453,
-        "narHash": "sha256-ro0+0kWz3YtiPKvwgs5sXGVDNi07Kl1p6UYyXHst28U=",
+        "lastModified": 1781338067,
+        "narHash": "sha256-w+YSOSleckczSVeBaSogaE0EKUswF44rY5FCEDdP5Vg=",
         "owner": "glml-lang",
         "repo": "glml",
-        "rev": "dc290d1fe37dce28ad05d2d5f798db7b1e96c5c7",
+        "rev": "502dc00ac48b910fdecee19468b16aa9a1c161a2",
         "type": "github"
       },
       "original": {
