@@ -14,19 +14,22 @@ code.language-glsl .hljs-type {
 
 code.language-glml .hljs-meta,
 code.language-glsl .hljs-meta {
-  color: #9d00ec; /* highlight.css default */
+  color: #9d00ec;
+  /* highlight.css default */
 }
 
 .navy code.language-glml .hljs-meta,
 .navy code.language-glsl .hljs-meta,
 .coal code.language-glml .hljs-meta,
 .coal code.language-glsl .hljs-meta {
-  color: #b294bb; /* tomorrow-night.css soft mauve */
+  color: #b294bb;
+  /* tomorrow-night.css soft mauve */
 }
 
 .ayu code.language-glml .hljs-meta,
 .ayu code.language-glsl .hljs-meta {
-  color: #ff7733; /* ayu-highlight.css keyword color */
+  color: #ff7733;
+  /* ayu-highlight.css keyword color */
 }
 
 code.language-glml,
@@ -89,4 +92,18 @@ canvas.glml-canvas {
   color: #c33;
   text-align: center;
   font-family: var(--mono-font, monospace);
+}
+
+.glml-compile-error {
+  margin: 1em 0;
+  padding: 0.6em 1em;
+  border: 1px solid #ff6b6b;
+  border-radius: 4px;
+  color: #ff6b6b;
+}
+
+.glml-compile-error pre {
+  background: none;
+  color: inherit;
+  white-space: pre-wrap;
 }

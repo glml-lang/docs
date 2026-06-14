@@ -3,6 +3,7 @@
 # mdBook preprocessor to turn inline GLML in `glml,live` fenced block
 # into live shader examples with emitted GLSL source code
 
+import html
 import json
 import subprocess
 import sys
@@ -61,8 +62,12 @@ def live_block(block_id: str, src: str, glsl: str) -> str:
 
 # Markdown for snippet that failed to compile
 def error_block(src: str, diagnostic: str) -> str:
-    quoted = "\n".join("> " + line for line in diagnostic.splitlines())
-    return f"```glml\n{src}\n```\n\n> **GLML compile error:**\n{quoted}\n"
+    escaped = html.escape(diagnostic.rstrip())
+    return (
+        f"```glml\n{src}\n```\n\n"
+        f'<div class="glml-compile-error"><strong>GLML compile error</strong>'
+        f"<pre>{escaped}</pre></div>\n"
+    )
 
 
 # Compile snippet and format as live or error block
