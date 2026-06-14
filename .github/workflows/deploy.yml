@@ -1,0 +1,31 @@
+name: Deploy Docs
+on: [push]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Cache Nix Store
+        uses: nix-community/cache-nix-action@v7
+        with:
+          # Use a key based on the OS and the hash of your flake files
+          primary-key: nix-${{ runner.os }}-${{ hashFiles('flake.nix', 'flake.lock') }}
+          # Fallback to the most recent cache if an exact match isn't found
+          restore-prefixes-first-match: nix-${{ runner.os }}-
+
+      - name: Build Docs
+        run: nix develop --command mdbook build
+
+      - name: Vercel Build and Deploy
+        run: |
+          npm install -g vercel
+          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+          vercel deploy book --yes --prod --token=${{ secrets.VERCEL_TOKEN }}
