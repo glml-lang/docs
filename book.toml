@@ -5,7 +5,7 @@ src = "src"
 title = "GLML"
 
 [preprocessor.glml]
-command = "../_build/default/docs/preprocessor/main.exe"
+command = "python3 scripts/glml_preprocess.py"
 
 [output.html]
 additional-js = ["theme/glml.js", "theme/glsl.js", "theme/glml-runner.js"]

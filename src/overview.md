@@ -2,10 +2,10 @@
 
 *Note: We assume some familiarity with GLSL and ML terminology*
 
-A GLML program is a single pure function from a `vec2` pixel coordinate to a `vec3` color:
+A GLML program is a single pure function from a `vec2` pixel coordinate to a `vec4` color:
 
 ```glml
-let main (coord : vec2) = [0.6, 0.2, 0.8]
+let main (coord : vec2) = [0.6, 0.2, 0.8, 1.0]
 ```
 
 The host pipes in uniforms with `#extern`, builtins are prefixed with `#`, and the rest of the language looks like a small ML, with the classic `let`, `let rec`, `match`, `fun`, records, variants, and Hindley–Milner inference. GLML supports first class functions/closures and recursion. The compiler lowers it to a fragment shader that runs anywhere WebGL2 or GLES 3.0 runs, but is primarily designed for quick Shadertoy-like development.
@@ -41,9 +41,12 @@ let main (coord : vec2) =
   in
   let zoom = #exp (#sin (u_time * 0.4) * 4.5 + 3.5) in
   let seahorse_valley = [-0.7453, 0.1127] + uv / zoom in
-  match mandelbrot seahorse_valley with
-  | None   -> [0, 0, 0]
-  | Some n -> #sin (n * [10, 20, 30] + u_time) * 0.5 + 0.5
+  let col =
+    match mandelbrot seahorse_valley with
+    | None   -> [0, 0, 0]
+    | Some n -> #sin (n * [10, 20, 30] + u_time) * 0.5 + 0.5
+  in
+  [col.0, col.1, col.2, 1.0]
 ```
 
 ## Example: GLSL vs GLML
@@ -132,7 +135,7 @@ let main (coord : vec2) =
   let m = uv u_mouse in
   let d = scene p in
 
-  let base  = if d > 0 then [0.9, 0.6, 0.3] else [0.65, 0.85, 1.0] in
+  let base  = if d > 0 then [0.9, 0.6, 0.3, 1] else [0.65, 0.85, 1.0, 1] in
   let shade = (1 - #exp (-6 * #abs d)) * (0.8 + 0.2 * #cos (150 * d)) in
   let edge  = 1 - #smoothstep 0 0.01 (#abs d) in
   let dm    = #length (p - m) in
@@ -140,8 +143,9 @@ let main (coord : vec2) =
   let mouse = 1 - #smoothstep 0 0.005 (#min (ds - 0.0025) (dm - 0.015)) in
 
   let col = base * shade in
-  let col = #mix col [1, 1, 1] edge in
-  #mix col [1, 1, 0] mouse
+  let col = #mix col [1, 1, 1, 1] edge in
+  let col = #mix col [1, 1, 0, 1] mouse in
+  [col.0, col.1, col.2, 1.0]
 ```
 
 

@@ -25,8 +25,8 @@
           packages = with pkgs; [
             mdbook
             nodejs
-            python3
             glml-bin
+            (python3.withPackages (ps: [ ps.markdown-it-py ]))
           ];
         };
       }
