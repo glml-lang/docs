@@ -1,3 +1,4 @@
 .direnv
 .envrc
 book
+scripts/__pycache__

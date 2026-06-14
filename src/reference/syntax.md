@@ -122,9 +122,9 @@ let _ = #mix [1, 0, 0] [0, 0, 1] 0.5
 let _ = #cross [1, 0, 0] [0, 1, 0]
 let _ = #float 2
 
-//// Entry point must be `main : vec2 -> vec3`
+//// Entry point must be `main : vec2 -> vec4`
 let main (coord : vec2) =
   let uv = coord / u_resolution in
   let d  = #length (uv - [0.5, 0.5]) - 0.3 in
-  if d < 0.0 then [1.0, 0.5, 0.2] else sky
+  if d < 0.0 then [1.0, 0.5, 0.2, 1.0] else sky
 ```
